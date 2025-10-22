@@ -1,0 +1,57 @@
+#include "get_next_line.h"
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+void	ft_strncat(char *dest, const char *src, size_t n)
+{
+	size_t	i;
+	size_t	j;
+
+	i = ft_strlen(dest);
+	j = 0;
+	while (src[j] && j < n)
+	{
+		dest[i + j] = src[j];
+		j++;
+	}
+	dest[i + j] = '\0';
+}
+
+char	*ft_strjoin(const char *s1, const char *s2)
+{
+	char	*dest;
+
+	if (!s1 || !s2)
+		return (NULL);
+	dest = malloc(ft_strlen((const char *)(s1)) + ft_strlen((const char *)(s2)) + 1);
+	if (!dest)
+		return (NULL);
+	dest[0] = '\0';
+	ft_strncat(dest, s1, ft_strlen((const char *)(s1)));
+	ft_strncat(dest, s2, ft_strlen((const char *)(s2)));
+	return (dest);
+}
+
+char	*ft_strchr(const char *str, int c)
+{
+	unsigned char	*ptr;
+
+	ptr = (unsigned char *)str;
+	while (*ptr)
+	{
+		if (*ptr == (unsigned char)c)
+			return ((char *)ptr);
+		ptr++;
+	}
+	if (*ptr == (unsigned char)c)
+		return ((char *)ptr);
+	return (NULL);
+}
