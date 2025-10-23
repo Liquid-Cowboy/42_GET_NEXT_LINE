@@ -4,6 +4,8 @@ size_t	ft_strlen(const char *str)
 {
 	size_t	i;
 
+	if (!str)
+		return (0);
 	i = 0;
 	while (str[i])
 		i++;
@@ -29,8 +31,10 @@ char	*ft_strjoin(const char *s1, const char *s2)
 {
 	char	*dest;
 
-	if (!s1 || !s2)
-		return (NULL);
+	if (!s1)
+		s1 = "";
+	if (!s2)
+		s2 = "";
 	dest = malloc(ft_strlen((const char *)(s1)) + ft_strlen((const char *)(s2)) + 1);
 	if (!dest)
 		return (NULL);
