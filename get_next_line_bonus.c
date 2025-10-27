@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 13:45:23 by mnogueir          #+#    #+#             */
-/*   Updated: 2025/10/27 13:51:18 by mnogueir         ###   ########.fr       */
+/*   Updated: 2025/10/27 17:21:02 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <stdio.h>
 
 char	*get_next(char *buffer)
@@ -102,17 +102,17 @@ char	*read_buf(char *buffer, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer[MAX_FD];
 	char		*dest;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!buffer)
-		buffer = ft_strdup("");
-	buffer = read_buf(buffer, fd);
-	if (!buffer)
+	if (!buffer[fd])
+		buffer[fd] = ft_strdup("");
+	buffer[fd] = read_buf(buffer[fd], fd);
+	if (!buffer[fd])
 		return (NULL);
-	dest = new_line(buffer);
-	buffer = get_next(buffer);
+	dest = new_line(buffer[fd]);
+	buffer[fd] = get_next(buffer[fd]);
 	return (dest);
 }
