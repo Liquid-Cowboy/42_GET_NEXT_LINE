@@ -44,6 +44,25 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	return (dest);
 }
 
+char	*ft_strdup(char const *str)
+{
+	int	count;
+	char *dest;
+
+	count = ft_strlen(str);
+	dest = malloc((count + 1) * sizeof(char));
+	if (!dest)
+		return (NULL);
+	count = 0;
+	while (str[count])
+	{
+		dest[count] = str[count];
+		count++;
+	}
+	dest[count] = '\0';
+	return (dest);
+}
+
 char	*ft_strchr(const char *str, int c)
 {
 	unsigned char	*ptr;

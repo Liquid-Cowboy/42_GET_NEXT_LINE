@@ -1,8 +1,35 @@
 #include "get_next_line.h"
+#include <stdio.h>
 
 char	*get_next(char *buffer)
 {
+	char	*temp;
+	int		i;
+	int		j;
 
+	if (!buffer || !buffer[0])
+	{
+		free(buffer);
+		return (NULL);
+	}
+	if (!ft_strchr((const char *)buffer, '\n'))
+	{
+		free(buffer);
+		return (NULL);
+	}
+	i = 0;
+	while (buffer[i] != '\n')
+		i++;
+	i++;
+	temp = malloc((ft_strlen((char const *)buffer) - i) + 1);
+	if (!temp)
+		return (NULL);
+	j = 0;
+	while (buffer[i])
+		temp[j++] = buffer[i++];
+	temp[j] = '\0';
+	free(buffer);
+	return (temp);
 }
 
 char	*new_line(char *buffer)
@@ -12,6 +39,8 @@ char	*new_line(char *buffer)
 	int		j;
 
 	i = 0;
+	if (!buffer || !buffer[0])
+		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
 	dest = malloc (i + 2);
@@ -43,12 +72,19 @@ char	*read_buf(char *buffer, int fd)
 
 	bytes_read = 1;
 	temp_buf = malloc(BUFFER_SIZE + 1);
-	(!temp_buf)
+	if (!temp_buf)
 		return (NULL);
-	while (bytes_read)
+	while (bytes_read && !ft_strchr(buffer, '\n'))
 	{
 		bytes_read = read(fd, temp_buf, BUFFER_SIZE);
-		if (bytes_read =< 0)
+		if (bytes_read < 0)
+		{
+			free(temp_buf);
+			free(buffer);
+			buffer = NULL;
+			return (NULL);
+		}
+		if (bytes_read == 0)
 			break ;
 		temp_buf[bytes_read] = '\0';
 		buffer = free_join(buffer, temp_buf);
@@ -58,17 +94,19 @@ char	*read_buf(char *buffer, int fd)
 }
 
 
-char	get_next_line(int fd)
+char	*get_next_line(int fd)
 {
 	static char	*buffer;
 	char	*dest;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!buffer)
-		buffer = NULL;
+		buffer = ft_strdup("");
 	buffer = read_buf(buffer, fd);
-	dest = new_line(buffer);
+	if (!buffer)
+		return (NULL);
+	dest = new_line(buffer);	
 	buffer = get_next(buffer);
 	return (dest);
 }
