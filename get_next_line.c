@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 13:45:23 by mnogueir          #+#    #+#             */
-/*   Updated: 2025/10/27 13:51:18 by mnogueir         ###   ########.fr       */
+/*   Updated: 2025/10/29 14:00:20 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,7 @@ char	*read_buf(char *buffer, int fd)
 		temp_buf[bytes_read] = '\0';
 		buffer = free_join(buffer, temp_buf);
 	}
-	free(temp_buf);
-	return (buffer);
+	return (free(temp_buf), buffer);
 }
 
 char	*get_next_line(int fd)
